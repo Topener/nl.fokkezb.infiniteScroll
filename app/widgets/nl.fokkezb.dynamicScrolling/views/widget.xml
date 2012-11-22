@@ -1,0 +1,5 @@
+<Alloy>
+	<View id="footerView">
+		<ActivityIndicator id="activityIndicator" messageid="Loading..." />
+	</View>
+</Alloy>

@@ -1,0 +1,14 @@
+"#footerView": {
+	top: 0, right: 0, left: 0,
+	height: 60,
+	
+	backgroundColor: '#e2e7ed'
+},
+
+"#activityIndicator": {
+	color: '#576c89',
+    font: {
+    	fontSize: 13,
+    	fontWeight: 'bold'
+    }
+}
