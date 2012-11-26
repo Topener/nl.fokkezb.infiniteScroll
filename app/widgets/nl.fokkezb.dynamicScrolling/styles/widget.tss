@@ -6,6 +6,8 @@
 },
 
 "#activityIndicator": {
+	message: L('loading', 'Loading...'),
+	
 	color: '#576c89',
     font: {
     	fontSize: 13,

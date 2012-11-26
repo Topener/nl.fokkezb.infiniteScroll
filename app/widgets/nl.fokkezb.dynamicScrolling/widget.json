@@ -8,6 +8,6 @@
 	"license":"Public Domain",
 	"min-alloy-version": "1.0",
 	"min-titanium-version":"2.1",
-	"tags":"tableview,scroll",
+	"tags":"table,view,dynamic,scrollling,load",
 	"platforms":"android,ios,mobileweb"
 }
