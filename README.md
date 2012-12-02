@@ -14,7 +14,7 @@ The *DynamicScrolling* widget is an [Alloy](http://projects.appcelerator.com/all
 * Find out how to override the view/style from outside the widget.
 
 ## Quick Start
-* [Download the latest version](https://github.com/FokkeZB/nl.fokkezb.pullToRefresh/tags) of the widget as a ZIP file.
+* [Download the latest version](https://github.com/FokkeZB/nl.fokkezb.dynamicScrolling/tags) of the widget as a ZIP file.
 * Move the file to your project's root folder.
 * Unzip the file and you'll find the widget under `app/widgets/nl.fokkezb.dynamicScrolling`.
 * Add the widget as a dependency to your `app/config.json` file like so:
