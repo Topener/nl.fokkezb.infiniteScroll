@@ -4,6 +4,9 @@
 ## Overview
 The *DynamicScrolling* widget is an [Alloy](http://projects.appcelerator.com/alloy/docs/Alloy-bootstrap/index.html) implementation of dynamic scrolling for a *TableView*, like found in the [KitchenSink](https://github.com/appcelerator/KitchenSink/blob/master/Resources/ui/handheld/ios/baseui/table_view_dynamic_scroll.js) for [Titanium](http://www.appcelerator.com/platform) by [Appcelerator](http://www.appcelerator.com).
 
+## Screenshot
+![Dynamic Scrolling](https://raw.github.com/FokkeZB/nl.fokkezb.dynamicScrolling/master/app/widgets/nl.fokkezb.dynamicScrolling/docs/screenshot.png)
+
 ## Features
 * Initialize the widget through one simple call.
 * Localize the loading message through [Internationalization](http://docs.appcelerator.com/titanium/latest/#!/guide/Internationalization) or pass your own.
