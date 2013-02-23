@@ -64,7 +64,7 @@ function doInit(args) {
 	options.table.footerView = $.footerView;
 	options.table.footerView.height = 0;
 	
-	options.table.on('scroll', doScroll);
+	options.table.addEventListener('scroll', doScroll);
 }
 
 function doRemove() {

@@ -75,5 +75,5 @@ You can also manually *show* and *hide* the view, undo the *init* completely or 
 | remove   |            | Undo the init |
 
 ## Changelog
-* 1.0
-  * Initial version
+* 1.0.1: Fixed for Alloy 1.0GA
+* 1.0: Initial version
