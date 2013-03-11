@@ -69,7 +69,7 @@ function doInit(args) {
 
 function doRemove() {
 	options.table.footerView = null;
-	options.table.off('scroll', doScroll);
+	options.table.removeEventListener('scroll', doScroll);
 	
 	options = null;
 	height = null;
