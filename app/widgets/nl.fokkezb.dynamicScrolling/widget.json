@@ -3,11 +3,11 @@
 	"name": "nl.fokkezb.dynamicScrolling",
 	"description" : "Easily add dynamic scrolling to your TableView.",
 	"author": "Fokke Zandbergen",
-	"version": "1.0",
+	"version": "1.1",
 	"copyright":"Copyright (c) 2012",
 	"license":"Public Domain",
 	"min-alloy-version": "1.0",
-	"min-titanium-version":"2.1",
+	"min-titanium-version":"3.0",
 	"tags":"table,view,dynamic,scrollling,load",
 	"platforms":"android,ios,mobileweb"
 }

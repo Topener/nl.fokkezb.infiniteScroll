@@ -50,7 +50,10 @@ function doTrigger() {
 function finishLoading() {
     doHide();
     
-    loading = false;
+    //ensure no multiple trigger events
+    setTimeout(function(){
+    	loading = false;	
+    },500);
 }
 
 function doInit(args) {
