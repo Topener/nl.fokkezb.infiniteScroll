@@ -24,7 +24,7 @@ The *DynamicScrolling* widget is an [Alloy](http://projects.appcelerator.com/all
 
 ```javascript
 	"dependencies": {
-		"nl.fokkezb.dynamicScrolling":"1.0"
+		"nl.fokkezb.dynamicScrolling":"1.1"
 	}
 ```
 
@@ -75,5 +75,6 @@ You can also manually *show* and *hide* the view, undo the *init* completely or 
 | remove   |            | Undo the init |
 
 ## Changelog
+* 1.1: Fixed multiple trigger events at once
 * 1.0.1: Fixed for Alloy 1.0GA
 * 1.0: Initial version
