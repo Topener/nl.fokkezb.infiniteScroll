@@ -41,7 +41,7 @@ var scrollCtrl = Alloy.createWidget('nl.fokkezb.dynamicScrolling', null, {
 
 ```javascript
 var scrollCtrl = Alloy.createWidget('nl.fokkezb.dynamicScrolling');
-scrollCtrl({
+scrollCtrl.init({
 	table: $.myTable,
 	loader: myLoaderCallback
 });
