@@ -58,8 +58,8 @@ If you re-style the widget you might need to change the `height` of the footerVi
 ## Methods
 You can also manually show and hide the view or trigger the complete cycle of the widget. You could use this for the first load when your window opens.
 
-| Function   | Parameters | Usage
-| ---------- | ---------- |
+| Function   | Parameters | Usage |
+| ---------- | ---------- | ----- |
 | setOptions | `object`   | Set any of the options
 | load       |            | Manually trigger show + the `end` event
 | show       |            | Show the *FooterView*
@@ -69,6 +69,7 @@ You can also manually show and hide the view or trigger the complete cycle of th
 
 ## Changelog
 * 1.1:
+  * Renamed to nl.fokkezb.infiniteScroll 
   * From now on declared in the XML view instead of the controller! 
   * Splitted `init` into `setOptions` and `attach`
   * Renamed `remove` to `dettach`
