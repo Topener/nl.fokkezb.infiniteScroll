@@ -1,79 +1,97 @@
-**WANTED**: Help to make the widget Android and Mobile Web compatible
+# Alloy *Infinite Scroll* widget
+The *Infinite Scroll* widget implements the design pattern also known as *Dynamic Scroll* or *Endless Scroll* for the [Alloy](http://docs.appcelerator.com/titanium/latest/#!/guide/Alloy_Quick_Start) MVC framework for [Titanium](http://www.appcelerator.com/platform) by [Appcelerator](http://www.appcelerator.com). A Titanium Classic implementation can be found in the [KitchenSink](https://github.com/appcelerator/KitchenSink/blob/master/Resources/ui/handheld/ios/baseui/table_view_dynamic_scroll.js).
 
-# DynamicScrolling Widget
+Also take a look at my [Pull to Refresh](https://github.com/FokkeZB/nl.fokkezb.pullToRefresh) widget.
+
 ## Overview
-The *DynamicScrolling* widget is an [Alloy](http://projects.appcelerator.com/alloy/docs/Alloy-bootstrap/index.html) implementation of dynamic scrolling for a *TableView*, like found in the [KitchenSink](https://github.com/appcelerator/KitchenSink/blob/master/Resources/ui/handheld/ios/baseui/table_view_dynamic_scroll.js) for [Titanium](http://www.appcelerator.com/platform) by [Appcelerator](http://www.appcelerator.com).
+The widget automatically shows an *ActivityIndicator* in a *TableView*'s *FooterView* when the user reached the end of the table. An event is triggered so that the implementing controller can load more rows.
 
-## Screenshot
-![Dynamic Scrolling](https://raw.github.com/FokkeZB/nl.fokkezb.dynamicScrolling/master/app/widgets/nl.fokkezb.dynamicScrolling/docs/screenshot.png)
+![screenshot](https://raw.github.com/FokkeZB/nl.fokkezb.infiniteScroll/master/docs/screenshot.png)
 
 ## Features
-* Initialize the widget through one simple call.
-* Localize the loading message through [Internationalization](http://docs.appcelerator.com/titanium/latest/#!/guide/Internationalization) or pass your own.
-* Hide or even remove the view if you don't need it anymore.
+* Add the widget to your *TableView* using just one line of code.
+* Override all styling via your app's `app.tss`.
+* Manually trigger the widget from your controller.
 
 ## Future work
-* Android and Mobile Web compatibility and testing.
-* Find out how to override the view/style from outside the widget.
+* Full Android, Mobile Web, Tizen and BlackBerry compatibility and testing.
+* Support for *ListView*s.
 
 ## Quick Start
-* [Download the latest version](https://github.com/FokkeZB/nl.fokkezb.dynamicScrolling/tags) of the widget as a ZIP file.
-* Move the file to your project's root folder.
-* Unzip the file and you'll find the widget under `app/widgets/nl.fokkezb.dynamicScrolling`.
-* Add the widget as a dependency to your `app/config.json` file like so:
+* Download the latest [release](https://github.com/FokkeZB/nl.fokkezb.infiniteScroll/releases).
+* Unzip the file to `app/widgets/nl.fokkezb.infiniteScroll`.
+* Add the widget as a dependency to your `app/config.json` file:
+	
+	```javascript
+		"dependencies": {
+			"nl.fokkezb.infiniteScroll":"1.1"
+		}
+	```
 
-```javascript
-	"dependencies": {
-		"nl.fokkezb.dynamicScrolling":"1.0"
-	}
-```
+* Add the widget to your *TableView*:
 
-* Attach the widget to any *Ti.UI.TableView*. 
+	```xml
+	<TableView>
+	  <Widget id="is" src="nl.fokkezb.infiniteScroll" onEnd="myLoader" />
+	</TableView>
+	```
+	
+* In the callback set via `myLoader` you can call `$.is.hide()` to hide the *FooterView* or `$.is.dettach()` to remove it when there are no more rows to load.
 
-```javascript
-var scrollCtrl = Alloy.createWidget('nl.fokkezb.dynamicScrolling', null, {
-	table: $.myTable,
-	loader: myLoaderCallback
-});
-```
+## Styling
+The widget can be fully styled without touching the widget source. Use the following ID's in your app's `app.tss` to override the default style:
 
-**or**
+| ID | Description |
+| --------- | ------- |
+| `#is` | The view to be added as *FooterView* |
+| `#isIndicator` | The *ActivityIndicator* showing during load |
 
-```javascript
-var scrollCtrl = Alloy.createWidget('nl.fokkezb.dynamicScrolling');
-scrollCtrl.init({
-	table: $.myTable,
-	loader: myLoaderCallback
-});
-```
+## Options
+There are no required options to pass via TSS properties or XML attributes, apart from the `onEnd` attribute to bind your callback to the end-event.
 
-* Your *myLoaderCallback* gets passed a callback that should be called upon completion to let the widget finish up.
-
-```javascript
-function myLoaderCallback(widgetCallback) {
-	// DO YOUR LOADING
-	widgetCallback();
-}
-```
-
-## Additonal parameters
-The only required parameters are the `table` and `loader` parameters. You can change the displayed texts using the following additional ones:
+If you re-style the widget you might need to change the `height` of the footerView to keep during load. When the *FooterView* is added to your *TableView* its height will be set to `0`. When the user reaches the end of the *TableView* the height is set to the configured height.
 
 | Parameter | Type | Default |
 | --------- | ---- | ----------- |
-| msg | `string` | Loading... *(Internationalized)* |
+| height | `number` | Height of the *FooterView* when shown (default: `50`) |
 
-## Addtional API functions
-You can also manually *show* and *hide* the view, undo the *init* completely or *trigger* the complete cycle of the widget. You e.g. use *remove* upon reaching the end of your table's contents.
+## Methods
+You can also manually show and hide the view or trigger the complete cycle of the widget. You could use this for the first load when your window opens.
 
-| Function | Parameters | Usage |
-| -------- | ---------- | ----- |
-| init     | `Object`   | Initialize the widget (see Quick Start) | 
-| trigger  |            | Manually trigger show > load > hide cycle 
-| show     |            | Show the tableFooterView |
-| hide     |            | Hide the tableFooterView |
-| remove   |            | Undo the init |
+| Function   | Parameters | Usage
+| ---------- | ---------- |
+| setOptions | `object`   | Set any of the options
+| load       |            | Manually trigger show + the `end` event
+| show       |            | Show the *FooterView*
+| hide       |            | Hide the *FooterView*
+| dettach    |            | Remove the *FooterView*
+| attach     |            | Re-add the *FooterView* after removal
 
 ## Changelog
-* 1.0.1: Fixed for Alloy 1.0GA
+* 1.1:
+  * From now on declared in the XML view instead of the controller! 
+  * Splitted `init` into `setOptions` and `attach`
+  * Renamed `remove` to `dettach`
+  * Renamed `trigger` to `load` to not interfere with BackBone 
+* 1.0.1:
+  * Fixed for Alloy 1.0GA
 * 1.0: Initial version
+
+## License
+
+<pre>
+Copyright 2013 Fokke Zandbergen
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+</pre>
+

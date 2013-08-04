@@ -1,0 +1,7 @@
+<Alloy>
+    <FooterView>
+    	<View id="is" class="stl">
+    		<ActivityIndicator id="isIndicator" class="isIndicator" />
+    	</View>
+    </FooterView>
+</Alloy>

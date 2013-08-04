@@ -1,5 +1,0 @@
-<Alloy>
-	<View id="footerView">
-		<ActivityIndicator id="activityIndicator" />
-	</View>
-</Alloy>
