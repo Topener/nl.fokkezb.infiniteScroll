@@ -1,7 +1,7 @@
 var args = arguments[0] || {};
 
 var options = {
-	height: 50
+  height: 50
 };
 
 var attached = false;
@@ -12,111 +12,111 @@ var item = null;
 var offset = null;
 
 function show() {
-	
-	if (!attached || shown) {
-		return false;
-	}
+  
+  if (!attached || shown) {
+    return false;
+  }
 
-	shown = true;
-	
-	$.isIndicator.show();
-	$.is.height = options.height;
-    
-    return true;
+  shown = true;
+  
+  $.isIndicator.show();
+  $.is.height = options.height;
+  
+  return true;
 }
 
-function hide() {	
-	
-	if (!attached || !shown) {
-		return false;
-	}
-	
-	$.is.height = 0;
-    $.isIndicator.hide();
-    
-    shown = false;
-    loading = false;
-    
-    return true;
+function hide() { 
+  
+  if (!attached || !shown) {
+    return false;
+  }
+  
+  $.is.height = 0;
+  $.isIndicator.hide();
+  
+  shown = false;
+  loading = false;
+  
+  return true;
 }
 
 function load() {
-	
-	if (!attached || loading) {
-		return false;
-	}
+  
+  if (!attached || loading) {
+    return false;
+  }
 
-	loading = true;
-	
-	show();
-	
-	$.trigger('end');
+  loading = true;
+  
+  show();
+  
+  $.trigger('end');
 
-	return true;
+  return true;
 }
 
 function scrollListener(e) {
-	
-	if (OS_ANDROID) {
-		var triggerLoad = triggerLoad || (item && e.firstVisibleItem > item) && (e.totalItemCount < e.firstVisibleItem + e.visibleItemCount);
-		item = e.firstVisibleItem;
-	
-	} else if (OS_IOS) {
-		var triggerLoad = triggerLoad || (offset && e.contentOffset.y > offset) && (e.contentOffset.y + e.size.height > e.contentSize.height);
-		offset = e.contentOffset.y;
-	}
+  
+  if (OS_ANDROID) {
+    var triggerLoad = triggerLoad || (item && e.firstVisibleItem > item) && (e.totalItemCount < e.firstVisibleItem + e.visibleItemCount);
+    item = e.firstVisibleItem;
+  
+  } else if (OS_IOS) {
+    var triggerLoad = triggerLoad || (offset && e.contentOffset.y > offset) && (e.contentOffset.y + e.size.height > e.contentSize.height);
+    offset = e.contentOffset.y;
+  }
 
-	if (triggerLoad) {
-		load();
-	}
+  if (triggerLoad) {
+    load();
+  }
 
-    return;
+  return;
 }
 
 function setOptions(_properties) {
-	_.extend(options, _properties);
+  _.extend(options, _properties);
 }
 
 function attach(set) {
-	
-	if (attached) {
-		return false;
-	}
-	
-	$.is.height = 0;
-	__parentSymbol.footerView = $.is;
+  
+  if (attached) {
+    return false;
+  }
+  
+  $.is.height = 0;
+  __parentSymbol.footerView = $.is;
 
-	init();
+  init();
 
-	return true;
+  return true;
 }
 
 function init() {
-	__parentSymbol.addEventListener('scroll', scrollListener);
-	
-	attached = true;
-	loading = false;
-	shown = false;
+  __parentSymbol.addEventListener('scroll', scrollListener);
+  
+  attached = true;
+  loading = false;
+  shown = false;
 
-	item = null;
-	offset = null;
+  item = null;
+  offset = null;
 
-	return;
+  return;
 }
 
 function dettach() {
 
-	if (!attached) {
-		return false;
-	}
+  if (!attached) {
+    return false;
+  }
 
-	__parentSymbol.footerView = null;
+  __parentSymbol.footerView = null;
 
-	__parentSymbol.removeEventListener('scroll', scrollListener);
+  __parentSymbol.removeEventListener('scroll', scrollListener);
 
-	attached = false;
+  attached = false;
 
-	return true;
+  return true;
 }
 
 delete args.__parentSymbol;
@@ -129,5 +129,5 @@ exports.setOptions = setOptions;
 exports.show = show;
 exports.hide = hide;
 exports.load = load;
-exports.dettach	= dettach;
+exports.dettach = dettach;
 exports.attach = attach;

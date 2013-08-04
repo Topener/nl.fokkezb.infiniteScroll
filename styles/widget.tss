@@ -1,11 +1,11 @@
 ".is": {
-    height: 0    
+  height: 0    
 }
 
 ".isIndicator": {
-    style: Ti.UI.ActivityIndicatorStyle.DARK
+  style: Ti.UI.ActivityIndicatorStyle.DARK
 }
 
 ".isIndicator[platform=ios]": {
-    style: Ti.UI.iPhone.ActivityIndicatorStyle.DARK
+  style: Ti.UI.iPhone.ActivityIndicatorStyle.DARK
 }
