@@ -31,12 +31,46 @@ The widget automatically shows an *ActivityIndicator* in a *TableView*'s *Footer
 * Add the widget to your *TableView*:
 
 	```xml
-	<TableView>
+	<TableView dataCollection="myCollection">
 	  <Widget id="is" src="nl.fokkezb.infiniteScroll" onEnd="myLoader" />
 	</TableView>
 	```
 	
-* In the callback set via `myLoader` you can call `$.is.hide()` to hide the *FooterView* or `$.is.dettach()` to remove it when there are no more rows to load.
+* In the callback set via `myLoader` you can call `$.is.hide()` to hide the *FooterView* or `$.is.dettach()` to remove it when there are no more rows to load. For example:
+
+	```javascript
+	function myLoader() {
+		
+		// Length before
+		var ln = myCollection.length;
+		
+		myCollection.fetch({
+		
+			// Some data for the sync adapter to retrieve next "page"
+			data: { offset: myCollection.length },
+		
+			// Don't reset the collection, but add to it
+			add: true,
+		
+			// Don't trigger an "add" event for every model, but just one "fetch"
+			silent: true,
+			
+			success: function (col) {
+	
+				// Reached the end
+				if (col.length === ln) {
+					$.is.dettach();
+					
+				// Just hide
+				} else {
+					$.is.hide();
+				}
+			},
+			
+			error: $.is.hide
+		});
+	}
+	```
 
 ## Styling
 The widget can be fully styled without touching the widget source. Use the following ID's in your app's `app.tss` to override the default style:
