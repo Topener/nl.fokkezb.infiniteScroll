@@ -87,8 +87,8 @@ There are no required options to pass via TSS properties or XML attributes, apar
 ## Methods
 You can also manually trigger the loading state of the widget. You could use this for the first load when your window opens.
 
-| Function   | Parameters | Usage
-| ---------- | ---------- |
+| Function   | Parameters | Usage |
+| ---------- | ---------- | ----- |
 | setOptions | `object`   | Set any of the options
 | load       |            | Manually trigger the `end` event and loading state
 | state      | `state`, `string`    | Manually set the state. The first argument should be one of the exported `SUCCESS`, `DONE` and `ERROR` constants. The second optional argument is a custom message to display instead of the message belonging to the state.
