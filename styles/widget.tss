@@ -1,11 +1,22 @@
 ".is": {
-  height: 0    
+    top: 0,
+
+    width: Ti.UI.FILL,
+    height: 50,
 }
 
 ".isIndicator": {
-  style: Ti.UI.ActivityIndicatorStyle.DARK
+    style: Ti.UI.ActivityIndicatorStyle.DARK
 }
 
 ".isIndicator[platform=ios]": {
-  style: Ti.UI.iPhone.ActivityIndicatorStyle.DARK
+    style: Ti.UI.iPhone.ActivityIndicatorStyle.DARK
+}
+
+".isText": {
+    color: '#777',
+    font: {
+        fontSize: 13,
+        fontWeight: 'bold'
+    }
 }

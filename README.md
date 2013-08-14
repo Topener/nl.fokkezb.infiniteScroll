@@ -24,22 +24,22 @@ The widget automatically shows an *ActivityIndicator* in a *TableView*'s *Footer
 	
 	```javascript
 		"dependencies": {
-			"nl.fokkezb.infiniteScroll":"1.1"
+			"nl.fokkezb.infiniteScroll":"1.2"
 		}
 	```
 
 * Add the widget to your *TableView*:
 
 	```xml
-	<TableView dataCollection="myCollection">
+	<TableView>
 	  <Widget id="is" src="nl.fokkezb.infiniteScroll" onEnd="myLoader" />
 	</TableView>
 	```
 	
-* In the callback set via `myLoader` you can call `$.is.hide()` to hide the *FooterView* or `$.is.dettach()` to remove it when there are no more rows to load. For example:
+* In the callback set via `myLoader` you call either `e.success()`, `e.error()` or `e.done()` optionally passing a custom message:
 
 	```javascript
-	function myLoader() {
+	function myLoader(e) {
 		
 		// Length before
 		var ln = myCollection.length;
@@ -56,18 +56,12 @@ The widget automatically shows an *ActivityIndicator* in a *TableView*'s *Footer
 			silent: true,
 			
 			success: function (col) {
-	
-				// Reached the end
-				if (col.length === ln) {
-					$.is.dettach();
-					
-				// Just hide
-				} else {
-					$.is.hide();
-				}
+			
+				// Call "done" if we didn't add anymore models
+				(col.length === ln) ? e.done() : e.success();
 			},
 			
-			error: $.is.hide
+			error: e.error
 		});
 	}
 	```
@@ -79,31 +73,32 @@ The widget can be fully styled without touching the widget source. Use the follo
 | --------- | ------- |
 | `#is` | The view to be added as *FooterView* |
 | `#isIndicator` | The *ActivityIndicator* showing during load |
+| `#isText` | The message shown when not loading |
 
 ## Options
-There are no required options to pass via TSS properties or XML attributes, apart from the `onEnd` attribute to bind your callback to the end-event.
-
-If you re-style the widget you might need to change the `height` of the footerView to keep during load. When the *FooterView* is added to your *TableView* its height will be set to `0`. When the user reaches the end of the *TableView* the height is set to the configured height.
+There are no required options to pass via TSS properties or XML attributes, apart from the `onEnd` attribute to bind your callback to the end-event. You can change the displayed messages by using the following options:
 
 | Parameter | Type | Default |
 | --------- | ---- | ----------- |
-| height | `number` | Height of the *FooterView* when shown (default: `50`) |
+| msgTap | `string` | Tap to load more... |
+| msgDone | `string` | No more to load... |
+| msgError | `string` | Tap to try again... |
 
 ## Methods
-You can also manually show and hide the view or trigger the complete cycle of the widget. You could use this for the first load when your window opens.
+You can also manually trigger the loading state of the widget. You could use this for the first load when your window opens.
 
-| Function   | Parameters | Usage |
-| ---------- | ---------- | ----- |
+| Function   | Parameters | Usage
+| ---------- | ---------- |
 | setOptions | `object`   | Set any of the options
-| load       |            | Manually trigger show + the `end` event
-| show       |            | Show the *FooterView*
-| hide       |            | Hide the *FooterView*
-| dettach    |            | Remove the *FooterView*
-| attach     |            | Re-add the *FooterView* after removal
+| load       |            | Manually trigger the `end` event and loading state
+| state      | `state`, `string`    | Manually set the state. The first argument should be one of the exported `SUCCESS`, `DONE` and `ERROR` constants. The second optional argument is a custom message to display instead of the message belonging to the state.
+| dettach    |            | Manually set the `DONE` state and remove the scroll listener
 
 ## Changelog
+* 1.2:
+  * Now compatible with Android (and other OS)
+  * View will now always show since Android doesn't support removing it :(
 * 1.1:
-  * Renamed to nl.fokkezb.infiniteScroll 
   * From now on declared in the XML view instead of the controller! 
   * Splitted `init` into `setOptions` and `attach`
   * Renamed `remove` to `dettach`
@@ -111,6 +106,7 @@ You can also manually show and hide the view or trigger the complete cycle of th
 * 1.0.1:
   * Fixed for Alloy 1.0GA
 * 1.0: Initial version
+itial version
 
 ## License
 

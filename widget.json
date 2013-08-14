@@ -3,11 +3,11 @@
 	"name": "nl.fokkezb.infiniteScroll",
 	"description" : "Scroll down to the end of the TableView to load more.",
 	"author": "Fokke Zandbergen",
-	"version": "1.1",
+	"version": "1.2",
 	"copyright":"Copyright (c) 2013",
 	"license":"Apache License, Version 2.0",
 	"min-alloy-version": "1.0",
 	"min-titanium-version":"2.1",
 	"tags":"table,view,infinite,endless,dynamic,scroll",
-	"platforms":"ios"
+	"platforms":"ios,android,mobileweb,blackberry"
 }

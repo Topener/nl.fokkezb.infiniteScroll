@@ -1,133 +1,141 @@
 var args = arguments[0] || {};
 
 var options = {
-  height: 50
+	msgTap: L('isTap', 'Tap to load more...'),
+	msgDone: L('isDone', 'No more to load...'),
+	msgError: L('isError', 'Tap to try again...')
 };
 
-var attached = false;
-var loading = false;
-var shown = false;
+var loading = false,
+	position = null;
 
-var item = null;
-var offset = null;
+init();
 
-function show() {
-  
-  if (!attached || shown) {
-    return false;
-  }
+function init() {
 
-  shown = true;
-  
-  $.isIndicator.show();
-  $.is.height = options.height;
-  
-  return true;
+	// delete special args
+	delete args.__parentSymbol;
+	delete args.__itemTemplate;
+	delete args.$model;
+
+	// set args as options
+	setOptions(args);
+
+	// set default text & remove indicator
+	$.isText.text = options.msgTap;
+	$.is.remove($.isIndicator);
+
+	// listen to scroll
+	__parentSymbol.addEventListener('scroll', onScroll);
+
+	return;
 }
 
-function hide() { 
-  
-  if (!attached || !shown) {
-    return false;
-  }
-  
-  $.is.height = 0;
-  $.isIndicator.hide();
-  
-  shown = false;
-  loading = false;
-  
-  return true;
+function state(state, message) {
+
+	// remove indicator
+	$.isIndicator.hide();
+	$.is.remove($.isIndicator);
+
+	// set custom message
+	if (message) {
+		$.isText.text = message;
+	
+	// set state message
+	} else {
+
+		if (state === 0 || state === false) {
+			$.isText.text = options.msgError;
+		} else if (state === -1) {
+			$.isText.text = options.msgDone;
+		} else if (state === 1 || state === true) {
+			$.isText.text = options.msgTap;
+		} else {
+			throw Error('Pass a valid state');
+		}
+	}
+
+	// add text
+	$.is.add($.isText);
+
+	loading = false;
+
+	return true;
 }
 
 function load() {
-  
-  if (!attached || loading) {
-    return false;
-  }
 
-  loading = true;
-  
-  show();
-  
-  $.trigger('end');
+	if (loading) {
+		return false;
+	}
 
-  return true;
+	loading = true;
+
+	// remove text
+	$.is.remove($.isText);
+
+	// add indicator
+	$.is.add($.isIndicator);
+	$.isIndicator.show();
+
+	// trigger listener to load
+	$.trigger('end', {
+		success: function (msg) { return state(exports.SUCCESS, msg); },
+		error: function (msg) { return state(exports.ERROR, msg); },
+		done: function (msg) { return state(exports.DONE, msg); },
+	});
+
+	return true;
 }
 
-function scrollListener(e) {
-  
-  if (OS_ANDROID) {
-    var triggerLoad = triggerLoad || (item && e.firstVisibleItem > item) && (e.totalItemCount < e.firstVisibleItem + e.visibleItemCount);
-    item = e.firstVisibleItem;
-  
-  } else if (OS_IOS) {
-    var triggerLoad = triggerLoad || (offset && e.contentOffset.y > offset) && (e.contentOffset.y + e.size.height > e.contentSize.height);
-    offset = e.contentOffset.y;
-  }
+function onScroll(e) {
+	var triggerLoad;
 
-  if (triggerLoad) {
-    load();
-  }
+	if (OS_ANDROID) {
 
-  return;
-}
+		// last item shown
+		triggerLoad = (position && e.firstVisibleItem > position && e.totalItemCount <= (e.firstVisibleItem + e.visibleItemCount));
 
-function setOptions(_properties) {
-  _.extend(options, _properties);
-}
+		// remember position
+		position = e.firstVisibleItem;
 
-function attach(set) {
-  
-  if (attached) {
-    return false;
-  }
-  
-  $.is.height = 0;
-  __parentSymbol.footerView = $.is;
+	} else if (OS_IOS) {
 
-  init();
+		// last pixel shown
+		triggerLoad = (position && e.contentOffset.y > position) && (e.contentOffset.y + e.size.height > e.contentSize.height);
 
-  return true;
-}
+		// remember position
+		position = e.contentOffset.y;
+	}
 
-function init() {
-  __parentSymbol.addEventListener('scroll', scrollListener);
-  
-  attached = true;
-  loading = false;
-  shown = false;
+	// trigger
+	if (triggerLoad) {
+		load();
+	}
 
-  item = null;
-  offset = null;
-
-  return;
+	return;
 }
 
 function dettach() {
 
-  if (!attached) {
-    return false;
-  }
+	// set as done
+	state(exports.DONE);
 
-  __parentSymbol.footerView = null;
+	// remove listener
+	__parentSymbol.removeEventListener('scroll', onScroll);
 
-  __parentSymbol.removeEventListener('scroll', scrollListener);
-
-  attached = false;
-
-  return true;
+	return;
 }
 
-delete args.__parentSymbol;
+function setOptions(_properties) {
+	_.extend(options, _properties);
+}
 
-setOptions(args);
-
-init();
+exports.SUCCESS = 1;
+exports.ERROR = 0;
+exports.DONE = -1;
 
 exports.setOptions = setOptions;
-exports.show = show;
-exports.hide = hide;
 exports.load = load;
+exports.state = state;
 exports.dettach = dettach;
-exports.attach = attach;
