@@ -40,7 +40,7 @@ function state(state, message) {
 	// set custom message
 	if (message) {
 		$.isText.text = message;
-	
+
 	// set state message
 	} else {
 
@@ -48,6 +48,8 @@ function state(state, message) {
 			$.isText.text = options.msgError;
 		} else if (state === -1) {
 			$.isText.text = options.msgDone;
+			loading = true;
+			return true;
 		} else if (state === 1 || state === true) {
 			$.isText.text = options.msgTap;
 		} else {
