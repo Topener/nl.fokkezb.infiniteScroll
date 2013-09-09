@@ -49,7 +49,6 @@ function state(state, message) {
 		} else if (state === -1) {
 			$.isText.text = options.msgDone;
 			loading = true;
-			return true;
 		} else if (state === 1 || state === true) {
 			$.isText.text = options.msgTap;
 		} else {
@@ -60,7 +59,11 @@ function state(state, message) {
 	// add text
 	$.is.add($.isText);
 
-	loading = false;
+	if(loading) {
+		return true;
+	} else {
+		loading = false;
+	}
 
 	return true;
 }
