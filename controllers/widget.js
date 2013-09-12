@@ -13,6 +13,9 @@ init();
 
 function init() {
 
+	// hide initially
+	$.isText.hide();
+
 	// delete special args
 	delete args.__parentSymbol;
 	delete args.__itemTemplate;
@@ -40,8 +43,8 @@ function state(state, message) {
 	// set custom message
 	if (message) {
 		$.isText.text = message;
-	
-	// set state message
+
+		// set state message
 	} else {
 
 		if (state === 0 || state === false) {
@@ -80,9 +83,15 @@ function load() {
 
 	// trigger listener to load
 	$.trigger('end', {
-		success: function (msg) { return state(exports.SUCCESS, msg); },
-		error: function (msg) { return state(exports.ERROR, msg); },
-		done: function (msg) { return state(exports.DONE, msg); },
+		success: function(msg) {
+			return state(exports.SUCCESS, msg);
+		},
+		error: function(msg) {
+			return state(exports.ERROR, msg);
+		},
+		done: function(msg) {
+			return state(exports.DONE, msg);
+		},
 	});
 
 	return true;
@@ -90,6 +99,11 @@ function load() {
 
 function onScroll(e) {
 	var triggerLoad;
+
+	// show it so it's visible when we reach the bottom
+	if (!$.isText.visible) {
+		$.isText.show();
+	}
 
 	if (OS_ANDROID) {
 
@@ -129,6 +143,9 @@ function dettach() {
 
 function setOptions(_properties) {
 	_.extend(options, _properties);
+
+	// refresh if called manually
+	$.isText.text = options.msgTap;
 }
 
 exports.SUCCESS = 1;
