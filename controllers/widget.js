@@ -7,7 +7,8 @@ var options = {
 };
 
 var loading = false,
-	position = null;
+	position = null,
+	currentState = 1;
 
 init();
 
@@ -23,7 +24,7 @@ function init() {
 
 	// set default text & remove indicator
 	$.isText.text = options.msgTap;
-	$.is.remove($.isIndicator);
+	$.isCenter.remove($.isIndicator);
 
 	// listen to scroll
 	__parentSymbol.addEventListener('scroll', onScroll);
@@ -31,32 +32,25 @@ function init() {
 	return;
 }
 
-function state(state, message) {
+function state(_state, _message) {
 
 	// remove indicator
 	$.isIndicator.hide();
-	$.is.remove($.isIndicator);
+	$.isCenter.remove($.isIndicator);
 
-	// set custom message
-	if (message) {
-		$.isText.text = message;
-	
-	// set state message
+	// set state
+	if (_state === 0 || _state === false || _state === -1 || _state === 1 || _state === true) {
+		currentState = _state;
 	} else {
-
-		if (state === 0 || state === false) {
-			$.isText.text = options.msgError;
-		} else if (state === -1) {
-			$.isText.text = options.msgDone;
-		} else if (state === 1 || state === true) {
-			$.isText.text = options.msgTap;
-		} else {
-			throw Error('Pass a valid state');
-		}
+		throw Error('Pass a valid state');
 	}
 
+	// set message
+	_updateMessage(_message);
+
 	// add text
-	$.is.add($.isText);
+	$.isCenter.add($.isText);
+	$.isText.show(); // so it can be hidden on init via TSS
 
 	loading = false;
 
@@ -72,17 +66,23 @@ function load() {
 	loading = true;
 
 	// remove text
-	$.is.remove($.isText);
+	$.isCenter.remove($.isText);
 
 	// add indicator
-	$.is.add($.isIndicator);
+	$.isCenter.add($.isIndicator);
 	$.isIndicator.show();
 
 	// trigger listener to load
 	$.trigger('end', {
-		success: function (msg) { return state(exports.SUCCESS, msg); },
-		error: function (msg) { return state(exports.ERROR, msg); },
-		done: function (msg) { return state(exports.DONE, msg); },
+		success: function(msg) {
+			return state(exports.SUCCESS, msg);
+		},
+		error: function(msg) {
+			return state(exports.ERROR, msg);
+		},
+		done: function(msg) {
+			return state(exports.DONE, msg);
+		},
 	});
 
 	return true;
@@ -127,8 +127,27 @@ function dettach() {
 	return;
 }
 
-function setOptions(_properties) {
-	_.extend(options, _properties);
+function setOptions(_options) {
+	_.extend(options, _options);
+
+	_updateMessage();
+}
+
+function _updateMessage(_message) {
+
+	if (_message) {
+		$.isText.text = _message;
+
+	} else {
+
+		if (currentState === 0 || currentState === false) {
+			$.isText.text = options.msgError;
+		} else if (currentState === -1) {
+			$.isText.text = options.msgDone;
+		} else {
+			$.isText.text = options.msgTap;
+		}
+	}
 }
 
 exports.SUCCESS = 1;

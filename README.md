@@ -24,7 +24,7 @@ The widget automatically shows an *ActivityIndicator* in a *TableView*'s *Footer
 	
 	```javascript
 		"dependencies": {
-			"nl.fokkezb.infiniteScroll":"1.2"
+			"nl.fokkezb.infiniteScroll":"1.3"
 		}
 	```
 
@@ -72,8 +72,9 @@ The widget can be fully styled without touching the widget source. Use the follo
 | ID | Description |
 | --------- | ------- |
 | `#is` | The view to be added as *FooterView* |
+| `#isCenter` | Can be used to align the content, but mainly to support iOS7's `Ti.UI.Window.extendEdges` by setting `bottom` to the height of the TabGroup (49). |
 | `#isIndicator` | The *ActivityIndicator* showing during load |
-| `#isText` | The message shown when not loading |
+| `#isText` | The message shown when not loading. Set `visible` to `false` if you want to hide the text until the first load has happened. |
 
 ## Options
 There are no required options to pass via TSS properties or XML attributes, apart from the `onEnd` attribute to bind your callback to the end-event. You can change the displayed messages by using the following options:
@@ -95,6 +96,9 @@ You can also manually trigger the loading state of the widget. You could use thi
 | dettach    |            | Manually set the `DONE` state and remove the scroll listener
 
 ## Changelog
+* 1.3:
+  * Compatible with iOS7's new `Ti.UI.Window.extendEdges` via `#isCenter`.
+  * Allows you to hide the text until first load by calling `show` after that
 * 1.2:
   * Now compatible with Android (and other OS)
   * View will now always show since Android doesn't support removing it :(
