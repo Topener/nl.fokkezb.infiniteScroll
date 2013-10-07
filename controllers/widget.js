@@ -52,7 +52,10 @@ function state(_state, _message) {
 	$.isCenter.add($.isText);
 	$.isText.show(); // so it can be hidden on init via TSS
 
-	loading = false;
+	// small time-out to prevent scroll-load-state loop with fast syncs
+	setTimeout(function () {
+		loading = false;
+	}, 25);
 
 	return true;
 }

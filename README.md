@@ -24,7 +24,7 @@ The widget automatically shows an *ActivityIndicator* in a *TableView*'s *Footer
 	
 	```javascript
 		"dependencies": {
-			"nl.fokkezb.infiniteScroll":"1.3"
+			"nl.fokkezb.infiniteScroll":"1.3.1"
 		}
 	```
 
@@ -96,6 +96,8 @@ You can also manually trigger the loading state of the widget. You could use thi
 | dettach    |            | Manually set the `DONE` state and remove the scroll listener
 
 ## Changelog
+* 1.3.1: 
+  * Fixes scroll-load-state loop with fast syncs.
 * 1.3:
   * Compatible with iOS7's new `Ti.UI.Window.extendEdges` via `#isCenter`.
   * Allows you to hide the text until first load by calling `show` after that
