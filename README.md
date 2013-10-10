@@ -36,18 +36,18 @@ The widget automatically shows an *ActivityIndicator* in a *TableView*'s *Footer
 	</TableView>
 	```
 	
-* In the callback set via `myLoader` you call either `e.success()`, `e.error()` or `e.done()` optionally passing a custom message:
+* In the callback set via `myLoader` you call either `e.success()`, `e.error()` or `e.done()` optionally passing a custom message.
 
 	```javascript
 	function myLoader(e) {
 		
 		// Length before
-		var ln = myCollection.length;
+		var ln = myCollection.models.length;
 		
 		myCollection.fetch({
 		
 			// Some data for the sync adapter to retrieve next "page"
-			data: { offset: myCollection.length },
+			data: { offset: ln },
 		
 			// Don't reset the collection, but add to it
 			add: true,
@@ -58,13 +58,15 @@ The widget automatically shows an *ActivityIndicator* in a *TableView*'s *Footer
 			success: function (col) {
 			
 				// Call "done" if we didn't add anymore models
-				(col.length === ln) ? e.done() : e.success();
+				(col.models.length === ln) ? e.done() : e.success();
 			},
 			
 			error: e.error
 		});
 	}
 	```
+	
+	Please note that in the example above I use `col.models.length` instead of `col.length`. There is a flaw in Backbone that will cause unpredictable lengths when more then 1 sync is performed at the same time.
 
 ## Styling
 The widget can be fully styled without touching the widget source. Use the following ID's in your app's `app.tss` to override the default style:
