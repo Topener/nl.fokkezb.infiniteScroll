@@ -1,14 +1,14 @@
 ".is": {
-    top: 0,
+    top: "0dp",
 
     width: Ti.UI.FILL,
     height: Ti.UI.SIZE
 }
 
 ".isCenter": {
-    height: 50,
+    height: "50dp",
 
-    bottom: 0
+    bottom: "0dp"
 }
 
 ".isIndicator": {
@@ -23,6 +23,6 @@
     wordWrap: false,
     color: '#777',
     font: {
-        fontSize: 13
+        fontSize: "13dp"
     }
 }
