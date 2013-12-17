@@ -10,9 +10,17 @@ var loading = false,
 	position = null,
 	currentState = 1;
 
-init();
+// Not in all Alloy versions (1.3.0-cr)
+if (__parentSymbol) {
+	init();
+}
 
-function init() {
+function init(_table) {
+
+	// Override __parentSymbol
+	if (_table) {
+		__parentSymbol = _table;
+	}
 
 	// delete special args
 	delete args.__parentSymbol;
@@ -161,3 +169,4 @@ exports.setOptions = setOptions;
 exports.load = load;
 exports.state = state;
 exports.dettach = dettach;
+exports.init = init;

@@ -24,7 +24,7 @@ The widget automatically shows an *ActivityIndicator* in a *TableView*'s *Footer
 	
 	```javascript
 		"dependencies": {
-			"nl.fokkezb.infiniteScroll":"1.3.1"
+			"nl.fokkezb.infiniteScroll":"1.3.2"
 		}
 	```
 
@@ -96,8 +96,11 @@ You can also manually trigger the loading state of the widget. You could use thi
 | load       |            | Manually trigger the `end` event and loading state
 | state      | `state`, `string`    | Manually set the state. The first argument should be one of the exported `SUCCESS`, `DONE` and `ERROR` constants. The second optional argument is a custom message to display instead of the message belonging to the state.
 | dettach    |            | Manually set the `DONE` state and remove the scroll listener
+| init       | `Ti.UI.TableView` | Manually init the widget if it's the child element of the table, or to work around [TC-3417](https://jira.appcelerator.org/browse/TC-3417) in Alloy 1.3.0-cr.
 
 ## Changelog
+* 1.3.2:
+  * Workaround for regression in Alloy 1.3.0-cr
 * 1.3.1: 
   * Fixes scroll-load-state loop with fast syncs.
 * 1.3:
