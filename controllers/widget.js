@@ -105,7 +105,7 @@ function onScroll(e) {
 	if (OS_ANDROID) {
 
 		// last item shown
-		triggerLoad = (position && e.firstVisibleItem > position && e.totalItemCount <= (e.firstVisibleItem + e.visibleItemCount));
+		triggerLoad = (position && e.firstVisibleItem >= position && e.totalItemCount <= (e.firstVisibleItem + e.visibleItemCount));
 
 		// remember position
 		position = e.firstVisibleItem;
