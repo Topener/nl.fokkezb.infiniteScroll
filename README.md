@@ -57,9 +57,6 @@ The widget automatically shows an *ActivityIndicator* in a *TableView*'s *Footer
 		
 			// Don't reset the collection, but add to it
 			add: true,
-		
-			// Don't trigger an "add" event for every model, but just one "fetch"
-			silent: true,
 			
 			success: function (col) {
 			
