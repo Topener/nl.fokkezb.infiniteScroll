@@ -36,6 +36,9 @@ function init(_table) {
 
 	// listen to scroll
 	__parentSymbol.addEventListener('scroll', onScroll);
+	
+	// load when clicking on view
+	$.is.addEventListener('click', load);
 
 	return;
 }
