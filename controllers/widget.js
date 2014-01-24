@@ -134,6 +134,9 @@ function dettach() {
 
 	// remove listener
 	__parentSymbol.removeEventListener('scroll', onScroll);
+	
+	// remove click event listener
+	$.is.removeEventListener('click', load);
 
 	return;
 }
