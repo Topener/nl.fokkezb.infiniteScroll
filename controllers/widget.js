@@ -104,7 +104,7 @@ function load() {
 
 function onScroll(e) {
 	
-	if (e.source.apiName && e.source.apiName !== 'Ti.UI.TabelView') {
+	if (e.source.apiName && e.source.apiName !== 'Ti.UI.TableView') {
 		return;
 	}
 	
