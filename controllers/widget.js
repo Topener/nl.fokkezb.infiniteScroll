@@ -104,22 +104,25 @@ function load() {
 
 function onScroll(e) {
 	var triggerLoad;
+	
+	if (e.contentOffset) {
+	
+		if (OS_ANDROID) {
 
-	if (OS_ANDROID) {
+			// last item shown
+			triggerLoad = (position && e.firstVisibleItem >= position && e.totalItemCount <= (e.firstVisibleItem + e.visibleItemCount));
+	
+			// remember position
+			position = e.firstVisibleItem;
 
-		// last item shown
-		triggerLoad = (position && e.firstVisibleItem >= position && e.totalItemCount <= (e.firstVisibleItem + e.visibleItemCount));
+		} else if (OS_IOS) {
 
-		// remember position
-		position = e.firstVisibleItem;
+			// last pixel shown
+			triggerLoad = (position && e.contentOffset.y > position) && (e.contentOffset.y + e.size.height > e.contentSize.height);
 
-	} else if (OS_IOS) {
-
-		// last pixel shown
-		triggerLoad = (position && e.contentOffset.y > position) && (e.contentOffset.y + e.size.height > e.contentSize.height);
-
-		// remember position
-		position = e.contentOffset.y;
+			// remember position
+			position = e.contentOffset.y;
+		}
 	}
 
 	// trigger
