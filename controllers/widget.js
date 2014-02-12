@@ -103,6 +103,11 @@ function load() {
 }
 
 function onScroll(e) {
+	
+	if (e.source.apiName && e.source.apiName !== 'Ti.UI.TabelView') {
+		return;
+	}
+	
 	var triggerLoad;
 
 	if (OS_ANDROID) {
