@@ -1,4 +1,4 @@
-# Alloy *Infinite Scroll* widget
+# Alloy *Infinite Scroll* widget [![Titanium](http://www-static.appcelerator.com/badges/titanium-git-badge-sq.png)](http://www.appcelerator.com/titanium/) [![Alloy](http://www-static.appcelerator.com/badges/alloy-git-badge-sq.png)](http://www.appcelerator.com/alloy/)
 The *Infinite Scroll* widget implements the design pattern also known as *Dynamic Scroll* or *Endless Scroll* for the [Alloy](http://docs.appcelerator.com/titanium/latest/#!/guide/Alloy_Quick_Start) MVC framework for [Titanium](http://www.appcelerator.com/platform) by [Appcelerator](http://www.appcelerator.com). A Titanium Classic implementation can be found in the [KitchenSink](https://github.com/appcelerator/KitchenSink/blob/master/Resources/ui/handheld/ios/baseui/table_view_dynamic_scroll.js).
 
 Also take a look at my [Pull to Refresh](https://github.com/FokkeZB/nl.fokkezb.pullToRefresh) widget.
@@ -18,15 +18,13 @@ The widget automatically shows an *ActivityIndicator* in a *TableView*'s *Footer
 * Support for *ListView*s.
 
 ## Quick Start
-* Download the latest [release](https://github.com/FokkeZB/nl.fokkezb.infiniteScroll/releases).
-* Unzip the file to `app/widgets/nl.fokkezb.infiniteScroll`.
-* Add the widget as a dependency to your `app/config.json` file:
-	
-	```javascript
-		"dependencies": {
-			"nl.fokkezb.infiniteScroll":"1.3.2"
-		}
-	```
+
+### Get it [![gitTio](http://gitt.io/badge.png)](http://gitt.io/component/nl.fokkezb.infiniteScroll)
+Download this repository and consult the [Alloy Documentation](http://docs.appcelerator.com/titanium/latest/#!/guide/Alloy_XML_Markup-section-35621528_AlloyXMLMarkup-ImportingWidgets) on how to install it, or simply use the [gitTio CLI](http://gitt.io/cli):
+
+`$ gittio install nl.fokkezb.infiniteScroll`
+
+### Use it
 
 * Add the widget to your *TableView*:
 
