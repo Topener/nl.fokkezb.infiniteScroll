@@ -34,7 +34,7 @@ Download this repository and consult the [Alloy Documentation](http://docs.appce
 	</TableView>
 	```
 
-* Only in Alloy 1.3.0 (shoud be fixed in 1.3.1) you have to manually bind the table from the controller:
+* Since Alloy 1.3.0 you have to manually bind the table from the controller:
 
 	```
 	$.is.init($.table);
