@@ -149,6 +149,20 @@ function dettach() {
 	return;
 }
 
+function attach() {
+
+	// set as done
+	state(exports.SUCCESS);
+
+	// remove listener
+	__parentSymbol.removeEventListener('scroll', onScroll);
+	
+	// remove click event listener
+	$.is.removeEventListener('click', load);
+
+	return;
+}
+
 function setOptions(_options) {
 	_.extend(options, _options);
 
@@ -180,4 +194,5 @@ exports.setOptions = setOptions;
 exports.load = load;
 exports.state = state;
 exports.dettach = dettach;
+exports.attach = attach;
 exports.init = init;
