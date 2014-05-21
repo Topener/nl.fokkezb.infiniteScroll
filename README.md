@@ -60,8 +60,6 @@ Download this repository and consult the [Alloy Documentation](http://docs.appce
 				// Call "done" if we didn't add anymore models
 				(col.models.length === ln) ? e.done() : e.success();
 
-				// if listview reset the marker to number of rows -1
-				//$.table.setMarker({sectionIndex:0, itemIndex:col.models.length-1});
 			},
 
 			error: e.error

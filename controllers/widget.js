@@ -35,7 +35,7 @@ function init(_table) {
 	$.isCenter.remove($.isIndicator);
 
 	// listen to scroll or marker
-	if (e.source.apiName && e.source.apiName !== 'Ti.UI.TableView') {
+	if (__parentSymbol.apiName && __parentSymbol.apiName !== 'Ti.UI.TableView') {
 		__parentSymbol.addEventListener('marker', load);
 	} else {
 		__parentSymbol.addEventListener('scroll', onScroll);
@@ -65,6 +65,14 @@ function state(_state, _message) {
 	// add text
 	$.isCenter.add($.isText);
 	$.isText.show(); // so it can be hidden on init via TSS
+
+	if (__parentSymbol.apiName && __parentSymbol.apiName !== 'Ti.UI.TableView') {
+		var sectionIndex = __parentSymbol.sectionCount - 1;
+		__parentSymbol.setMarker({
+		  sectionIndex: sectionIndex,
+		  itemIndex: __parentSymbol.sections[sectionIndex].items.length - 1
+		});
+	}
 
 	// small time-out to prevent scroll-load-state loop with fast syncs
 	setTimeout(function () {
@@ -144,7 +152,7 @@ function dettach() {
 	state(exports.DONE);
 
 	// remove listener
-	if (e.source.apiName && e.source.apiName !== 'Ti.UI.TableView') {
+	if (__parentSymbol.apiName && __parentSymbol.apiName !== 'Ti.UI.TableView') {
 		__parentSymbol.removeEventListener('marker', onScroll);
 	} else {
 		__parentSymbol.removeEventListener('scroll', onScroll);
