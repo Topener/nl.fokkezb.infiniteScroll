@@ -36,6 +36,11 @@ function init(_table) {
 
 	// listen to scroll or marker
 	if (__parentSymbol.apiName && __parentSymbol.apiName !== 'Ti.UI.TableView') {
+		var sectionIndex = __parentSymbol.sectionCount - 1;
+		__parentSymbol.setMarker({
+			sectionIndex: sectionIndex,
+			itemIndex: __parentSymbol.sections[sectionIndex].items.length - 1
+		});
 		__parentSymbol.addEventListener('marker', load);
 	} else {
 		__parentSymbol.addEventListener('scroll', onScroll);
