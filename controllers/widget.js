@@ -39,6 +39,9 @@ function init(_table) {
 
 	// listen to scroll
 	__parentSymbol.addEventListener('scroll', onScroll);
+	
+	// load when clicking on view
+	$.is.addEventListener('click', load);
 
 	return;
 }
@@ -103,12 +106,17 @@ function load() {
 }
 
 function onScroll(e) {
+	
+	if (e.source.apiName && e.source.apiName !== 'Ti.UI.TableView') {
+		return;
+	}
+	
 	var triggerLoad;
 
 	if (OS_ANDROID) {
 
 		// last item shown
-		triggerLoad = (position && e.firstVisibleItem > position && e.totalItemCount <= (e.firstVisibleItem + e.visibleItemCount));
+		triggerLoad = (position && e.firstVisibleItem >= position && e.totalItemCount <= (e.firstVisibleItem + e.visibleItemCount));
 
 		// remember position
 		position = e.firstVisibleItem;
@@ -137,6 +145,9 @@ function dettach() {
 
 	// remove listener
 	__parentSymbol.removeEventListener('scroll', onScroll);
+	
+	// remove click event listener
+	$.is.removeEventListener('click', load);
 
 	return;
 }
