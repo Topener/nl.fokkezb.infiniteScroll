@@ -20,6 +20,9 @@ function init(_table) {
 	// Override __parentSymbol
 	if (_table) {
 		__parentSymbol = _table;
+
+		// manually add the footerView
+		__parentSymbol.footerView = $.is;
 	}
 
 	// delete special args

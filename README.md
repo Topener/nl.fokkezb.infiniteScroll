@@ -24,7 +24,7 @@ The widget automatically shows an *ActivityIndicator* in a *TableView*'s *Footer
 	
 	```javascript
 		"dependencies": {
-			"nl.fokkezb.infiniteScroll":"1.3.2"
+			"nl.fokkezb.infiniteScroll":"1.3.3"
 		}
 	```
 
@@ -99,6 +99,8 @@ You can also manually trigger the loading state of the widget. You could use thi
 | init       | `Ti.UI.TableView` | Manually init the widget if it's the child element of the table, or to work around [TC-3417](https://jira.appcelerator.org/browse/TC-3417) in Alloy 1.3.0-cr.
 
 ## Changelog
+* 1.3.3:
+  * Fixes #25 when using the widget with no XML.
 * 1.3.2:
   * Workaround for regression in Alloy 1.3.0-cr
 * 1.3.1: 
