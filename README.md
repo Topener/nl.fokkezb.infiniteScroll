@@ -96,6 +96,7 @@ You can also manually trigger the loading state of the widget. You could use thi
 | setOptions | `object`   | Set any of the options
 | load       |            | Manually trigger the `end` event and loading state
 | state      | `state`, `string`    | Manually set the state. The first argument should be one of the exported `SUCCESS`, `DONE` and `ERROR` constants. The second optional argument is a custom message to display instead of the message belonging to the state.
+| attach    |            | Manually set the `SUCCESS` state and add the scroll listener
 | dettach    |            | Manually set the `DONE` state and remove the scroll listener
 | init       | `Ti.UI.TableView` | Manually init the widget if it's the child element of the table, or to work around [TC-3417](https://jira.appcelerator.org/browse/TC-3417) in Alloy 1.3.0-cr.
 
