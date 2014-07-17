@@ -37,9 +37,17 @@ function init(_table) {
 	$.isText.text = options.msgTap;
 	$.isCenter.remove($.isIndicator);
 
-	// listen to scroll
-	__parentSymbol.addEventListener('scroll', onScroll);
-	
+	// listen to scroll or marker
+	if (__parentSymbol.apiName && __parentSymbol.apiName !== 'Ti.UI.TableView') {
+		var sectionIndex = __parentSymbol.sectionCount - 1;
+		__parentSymbol.setMarker({
+			sectionIndex: sectionIndex,
+			itemIndex: __parentSymbol.sections[sectionIndex].items.length - 1
+		});
+		__parentSymbol.addEventListener('marker', load);
+	} else {
+		__parentSymbol.addEventListener('scroll', onScroll);
+	}
 	// load when clicking on view
 	$.is.addEventListener('click', load);
 
@@ -65,6 +73,14 @@ function state(_state, _message) {
 	// add text
 	$.isCenter.add($.isText);
 	$.isText.show(); // so it can be hidden on init via TSS
+
+	if (__parentSymbol.apiName && __parentSymbol.apiName !== 'Ti.UI.TableView') {
+		var sectionIndex = __parentSymbol.sectionCount - 1;
+		__parentSymbol.setMarker({
+		  sectionIndex: sectionIndex,
+		  itemIndex: __parentSymbol.sections[sectionIndex].items.length - 1
+		});
+	}
 
 	// small time-out to prevent scroll-load-state loop with fast syncs
 	setTimeout(function () {
@@ -106,11 +122,11 @@ function load() {
 }
 
 function onScroll(e) {
-	
+
 	if (e.source.apiName && e.source.apiName !== 'Ti.UI.TableView') {
 		return;
 	}
-	
+
 	var triggerLoad;
 
 	if (OS_ANDROID) {
@@ -132,7 +148,7 @@ function onScroll(e) {
 
 	// trigger
 	if (triggerLoad) {
-		load();
+			load();
 	}
 
 	return;
@@ -144,8 +160,12 @@ function dettach() {
 	state(exports.DONE);
 
 	// remove listener
-	__parentSymbol.removeEventListener('scroll', onScroll);
-	
+	if (__parentSymbol.apiName && __parentSymbol.apiName !== 'Ti.UI.TableView') {
+		__parentSymbol.removeEventListener('marker', onScroll);
+	} else {
+		__parentSymbol.removeEventListener('scroll', onScroll);
+	}
+
 	// remove click event listener
 	$.is.removeEventListener('click', load);
 

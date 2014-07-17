@@ -39,34 +39,34 @@ Download this repository and consult the [Alloy Documentation](http://docs.appce
 	```
 	$.is.init($.table);
 	```
-	
+
 * In the callback set via `myLoader` you call either `e.success()`, `e.error()` or `e.done()` optionally passing a custom message.
 
 	```javascript
 	function myLoader(e) {
-		
+
 		// Length before
 		var ln = myCollection.models.length;
-		
+
 		myCollection.fetch({
-		
+
 			// Some data for the sync adapter to retrieve next "page"
 			data: { offset: ln },
-		
+
 			// Don't reset the collection, but add to it
 			add: true,
-			
+
 			success: function (col) {
-			
 				// Call "done" if we didn't add anymore models
 				(col.models.length === ln) ? e.done() : e.success();
+
 			},
-			
+
 			error: e.error
 		});
 	}
 	```
-	
+
 	Please note that in the example above I use `col.models.length` instead of `col.length`. There is a flaw in Backbone that will cause unpredictable lengths when more then 1 sync is performed at the same time.
 
 ## Styling
@@ -104,7 +104,7 @@ You can also manually trigger the loading state of the widget. You could use thi
   * Fixes #25 when using the widget with no XML.
 * 1.3.2:
   * Workaround for regression in Alloy 1.3.0-cr
-* 1.3.1: 
+* 1.3.1:
   * Fixes scroll-load-state loop with fast syncs.
 * 1.3:
   * Compatible with iOS7's new `Ti.UI.Window.extendEdges` via `#isCenter`.
@@ -113,10 +113,10 @@ You can also manually trigger the loading state of the widget. You could use thi
   * Now compatible with Android (and other OS)
   * View will now always show since Android doesn't support removing it :(
 * 1.1:
-  * From now on declared in the XML view instead of the controller! 
+  * From now on declared in the XML view instead of the controller!
   * Splitted `init` into `setOptions` and `attach`
   * Renamed `remove` to `dettach`
-  * Renamed `trigger` to `load` to not interfere with BackBone 
+  * Renamed `trigger` to `load` to not interfere with BackBone
 * 1.0.1:
   * Fixed for Alloy 1.0GA
 * 1.0: Initial version
@@ -139,4 +139,3 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 </pre>
-
