@@ -1,0 +1,27 @@
+<Alloy>
+  <Collection src="tidev" id="tableCollection" instance="true" />
+  <Collection src="tidev" id="listCollection" instance="true" />
+	<TabGroup>
+
+    <Tab title="TableView">
+      <Window title="TableView">
+        <TableView id="table" dataCollection="$.tableCollection">
+          <Widget id="tableWidget" src="nl.fokkezb.infiniteScroll" onEnd="tableLoader" />
+          <TableViewRow title="{title}" />
+        </TableView>
+      </Window>
+    </Tab>
+
+    <Tab title="ListView">
+      <Window title="ListView">
+        <ListView id="list">
+          <Widget id="listWidget" src="nl.fokkezb.infiniteScroll" onEnd="listLoader" />
+          <ListSection dataCollection="$.listCollection">
+            <ListItem title="{title}" />
+          </ListSection>
+        </ListView>
+      </Window>
+    </Tab>
+
+  </TabGroup>
+</Alloy>
