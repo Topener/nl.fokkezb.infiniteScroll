@@ -79,18 +79,14 @@ Download this repository and consult the [Alloy Documentation](http://docs.appce
 
 ## Styling
 
-| NOTE |
-|------|
-| Appcelerator Alloy 1.4 now supports styling of Widgets, and you no longer need to add `app.tss` entries to alter the styles of this widget. For more information on styling Widgets in Alloy 1.4, please refer to the [Widget Styling](http://docs.appcelerator.com/titanium/latest/#!/guide/Alloy_Widgets-section-35621514_AlloyWidgets-Themes) documentation. |
+The widget can be fully styled without touching the widget source. For Alloy 1.4 and later use the classnames below in your theme's `app/themes/your-theme/widgets/nl.fokkezb.infiniteScroll/styles/widget.tss`. For Alloy 1.3 and earlier use the ID's in your app's `app.tss` to override the default style, which is set on the classes.
 
-The widget can be fully styled without touching the widget source. Use the following ID's in your app's `app.tss` to override the default style:
-
-| ID | Description |
+| class/ID | Description |
 | --------- | ------- |
-| `#is` | The view to be added as *FooterView* |
-| `#isCenter` | Can be used to align the content, but mainly to support iOS7's `Ti.UI.Window.extendEdges` by setting `bottom` to the height of the TabGroup (49). |
-| `#isIndicator` | The *ActivityIndicator* showing during load |
-| `#isText` | The message shown when not loading. Set `visible` to `false` if you want to hide the text until the first load has happened. |
+| `is` | The view to be added as *FooterView* |
+| `isCenter` | Can be used to align the content, but mainly to support iOS7's `Ti.UI.Window.extendEdges` by setting `bottom` to the height of the TabGroup (49). |
+| `isIndicator` | The *ActivityIndicator* showing during load |
+| `isText` | The message shown when not loading. Set `visible` to `false` if you want to hide the text until the first load has happened. |
 
 ## Options
 There are no required options to pass via TSS properties or XML attributes, apart from the `onEnd` attribute to bind your callback to the end-event. You can change the displayed messages by using the following options:
