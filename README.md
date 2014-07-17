@@ -1,21 +1,17 @@
-# Alloy *Infinite Scroll* widget [![Titanium](http://www-static.appcelerator.com/badges/titanium-git-badge-sq.png)](http://www.appcelerator.com/titanium/) [![Alloy](http://www-static.appcelerator.com/badges/alloy-git-badge-sq.png)](http://www.appcelerator.com/alloy/)
-The *Infinite Scroll* widget implements the design pattern also known as *Dynamic Scroll* or *Endless Scroll* for the [Alloy](http://docs.appcelerator.com/titanium/latest/#!/guide/Alloy_Quick_Start) MVC framework for [Titanium](http://www.appcelerator.com/platform) by [Appcelerator](http://www.appcelerator.com). A Titanium Classic implementation can be found in the [KitchenSink](https://github.com/appcelerator/KitchenSink/blob/master/Resources/ui/handheld/ios/baseui/table_view_dynamic_scroll.js).
+# Alloy *Infinite Scroll* widget [![Alloy](http://www-static.appcelerator.com/badges/alloy-git-badge-sq.png)](http://www.appcelerator.com/alloy/)
+The *Infinite Scroll* widget implements the design pattern also known as *Dynamic Scroll* or *Endless Scroll* for TableViews and ListViews in the [Alloy](http://docs.appcelerator.com/titanium/latest/#!/guide/Alloy_Quick_Start) MVC framework for [Titanium](http://www.appcelerator.com/platform) by [Appcelerator](http://www.appcelerator.com). A Titanium Classic implementation can be found in the [KitchenSink](https://github.com/appcelerator/KitchenSink/blob/master/Resources/ui/handheld/ios/baseui/table_view_dynamic_scroll.js).
 
 Also take a look at my [Pull to Refresh](https://github.com/FokkeZB/nl.fokkezb.pullToRefresh) widget.
 
 ## Overview
-The widget automatically shows an *ActivityIndicator* in a *TableView*'s *FooterView* when the user reached the end of the table. An event is triggered so that the implementing controller can load more rows.
+The widget automatically shows an *ActivityIndicator* in a *TableView* or *ListView*'s *FooterView* when the user reached the end of the table. An event is triggered so that the implementing controller can load more rows.
 
 ![screenshot](https://raw.github.com/FokkeZB/nl.fokkezb.infiniteScroll/master/docs/screenshot.png)
 
 ## Features
-* Add the widget to your *TableView* using just one line of code.
+* Add the widget to your *TableView*  or *ListView* using just one line of code.
 * Override all styling via your app's `app.tss`.
 * Manually trigger the widget from your controller.
-
-## Future work
-* Full Android, Mobile Web, Tizen and BlackBerry compatibility and testing.
-* Support for *ListView*s.
 
 ## Quick Start
 
@@ -33,11 +29,19 @@ Download this repository and consult the [Alloy Documentation](http://docs.appce
 	  <Widget id="is" src="nl.fokkezb.infiniteScroll" onEnd="myLoader" />
 	</TableView>
 	```
+	
+	or *ListView*:
+	
+	```xml
+	<ListView id="list">
+	  <Widget id="is" src="nl.fokkezb.infiniteScroll" onEnd="myLoader" />
+	</ListView>
+	```
 
-* Since Alloy 1.3.0 you have to manually bind the table from the controller:
+* Since Alloy 1.3.0 you have to manually bind the parent from the controller:
 
 	```
-	$.is.init($.table);
+	$.is.init($.list);
 	```
 
 * In the callback set via `myLoader` you call either `e.success()`, `e.error()` or `e.done()` optionally passing a custom message.
@@ -45,29 +49,33 @@ Download this repository and consult the [Alloy Documentation](http://docs.appce
 	```javascript
 	function myLoader(e) {
 
-		// Length before
 		var ln = myCollection.models.length;
 
 		myCollection.fetch({
 
-			// Some data for the sync adapter to retrieve next "page"
+			// whatever your sync adapter needs to fetch the next page
 			data: { offset: ln },
 
-			// Don't reset the collection, but add to it
+			// don't reset the collection, but add to it
 			add: true,
 
 			success: function (col) {
-				// Call "done" if we didn't add anymore models
+			
+				// call done() when we received last page - else success()
 				(col.models.length === ln) ? e.done() : e.success();
 
 			},
 
+			// call error() when fetch fails
 			error: e.error
 		});
 	}
 	```
 
 	Please note that in the example above I use `col.models.length` instead of `col.length`. There is a flaw in Backbone that will cause unpredictable lengths when more then 1 sync is performed at the same time.
+	
+* To do the initial fetch call `$.is.load()`. If you add/remove items via other ways then the widget and you're using a *ListView* then call `$.is.mark()` after that!
+
 
 ## Styling
 The widget can be fully styled without touching the widget source. Use the following ID's in your app's `app.tss` to override the default style:
@@ -97,9 +105,12 @@ You can also manually trigger the loading state of the widget. You could use thi
 | load       |            | Manually trigger the `end` event and loading state
 | state      | `state`, `string`    | Manually set the state. The first argument should be one of the exported `SUCCESS`, `DONE` and `ERROR` constants. The second optional argument is a custom message to display instead of the message belonging to the state.
 | dettach    |            | Manually set the `DONE` state and remove the scroll listener
-| init       | `Ti.UI.TableView` | Manually init the widget if it's the child element of the table, or to work around [TC-3417](https://jira.appcelerator.org/browse/TC-3417) in Alloy 1.3.0-cr.
+| init       | `Ti.UI.TableView`, `Ti.UI.ListView` | Manually init the widget if it's the child element of the *TableView* or *ListView*, or to work around [TC-3417](https://jira.appcelerator.org/browse/TC-3417) in Alloy 1.3.0 and later.
+| mark       |            | If add/remove items from the *ListView* via other ways then the widget call `mark()` so the widget is triggered on the last item.
 
 ## Changelog
+* 1.4.0:
+  * Adds support for *ListViews*.
 * 1.3.3:
   * Fixes #25 when using the widget with no XML.
 * 1.3.2:

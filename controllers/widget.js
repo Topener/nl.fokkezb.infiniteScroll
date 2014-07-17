@@ -8,22 +8,25 @@ var options = {
 
 var loading = false,
 	position = null,
+	list = false,
 	currentState = 1;
 
-// Not in all Alloy versions (1.3.0-cr)
+// Only before Alloy 1.3.0
 if (__parentSymbol) {
 	init();
 }
 
-function init(_table) {
+function init(parent) {
 
-	// Override __parentSymbol
-	if (_table) {
-		__parentSymbol = _table;
+	// Override __parentSymbol (needed after Alloy 1.3.0)
+	if (parent) {
+		__parentSymbol = parent;
 
 		// manually add the footerView
 		__parentSymbol.footerView = $.is;
 	}
+
+	list = (__parentSymbol.apiName && __parentSymbol.apiName !== 'Ti.UI.TableView');
 
 	// delete special args
 	delete args.__parentSymbol;
@@ -38,20 +41,28 @@ function init(_table) {
 	$.isCenter.remove($.isIndicator);
 
 	// listen to scroll or marker
-	if (__parentSymbol.apiName && __parentSymbol.apiName !== 'Ti.UI.TableView') {
-		var sectionIndex = __parentSymbol.sectionCount - 1;
-		__parentSymbol.setMarker({
-			sectionIndex: sectionIndex,
-			itemIndex: __parentSymbol.sections[sectionIndex].items.length - 1
-		});
+	if (list) {
+		mark();
 		__parentSymbol.addEventListener('marker', load);
 	} else {
 		__parentSymbol.addEventListener('scroll', onScroll);
 	}
+
 	// load when clicking on view
 	$.is.addEventListener('click', load);
 
 	return;
+}
+
+function mark() {
+
+	// sectionCount can be 0 on Android?!
+	var sectionIndex = Math.max(0, __parentSymbol.sectionCount - 1);
+
+	__parentSymbol.setMarker({
+		sectionIndex: sectionIndex,
+		itemIndex: __parentSymbol.sections[sectionIndex].items.length - 1
+	});
 }
 
 function state(_state, _message) {
@@ -74,16 +85,12 @@ function state(_state, _message) {
 	$.isCenter.add($.isText);
 	$.isText.show(); // so it can be hidden on init via TSS
 
-	if (__parentSymbol.apiName && __parentSymbol.apiName !== 'Ti.UI.TableView') {
-		var sectionIndex = __parentSymbol.sectionCount - 1;
-		__parentSymbol.setMarker({
-		  sectionIndex: sectionIndex,
-		  itemIndex: __parentSymbol.sections[sectionIndex].items.length - 1
-		});
+	if (list) {
+		mark();
 	}
 
 	// small time-out to prevent scroll-load-state loop with fast syncs
-	setTimeout(function () {
+	setTimeout(function() {
 		loading = false;
 	}, 25);
 
@@ -123,7 +130,8 @@ function load() {
 
 function onScroll(e) {
 
-	if (e.source.apiName && e.source.apiName !== 'Ti.UI.TableView') {
+	// fixes responding to bubbled scroll event
+	if (e.source !== __parentSymbol) {
 		return;
 	}
 
@@ -148,7 +156,7 @@ function onScroll(e) {
 
 	// trigger
 	if (triggerLoad) {
-			load();
+		load();
 	}
 
 	return;
@@ -160,8 +168,8 @@ function dettach() {
 	state(exports.DONE);
 
 	// remove listener
-	if (__parentSymbol.apiName && __parentSymbol.apiName !== 'Ti.UI.TableView') {
-		__parentSymbol.removeEventListener('marker', onScroll);
+	if (list) {
+		__parentSymbol.removeEventListener('marker', load);
 	} else {
 		__parentSymbol.removeEventListener('scroll', onScroll);
 	}
@@ -204,3 +212,4 @@ exports.load = load;
 exports.state = state;
 exports.dettach = dettach;
 exports.init = init;
+exports.mark = mark;
