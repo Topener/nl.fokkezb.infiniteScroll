@@ -108,6 +108,9 @@ You can also manually trigger the loading state of the widget. You could use thi
 | init       | `Ti.UI.TableView`, `Ti.UI.ListView` | Manually init the widget if it's the child element of the *TableView* or *ListView*, or to work around [TC-3417](https://jira.appcelerator.org/browse/TC-3417) in Alloy 1.3.0 and later.
 | mark       |            | If add/remove items from the *ListView* via other ways then the widget call `mark()` so the widget is triggered on the last item.
 
+## Testing
+There is a test app and instructions in the [test](https://github.com/FokkeZB/nl.fokkezb.infiniteScroll/tree/test) branch.
+
 ## Changelog
 * 1.4.0:
   * Adds support for *ListViews*.
