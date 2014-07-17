@@ -78,6 +78,11 @@ Download this repository and consult the [Alloy Documentation](http://docs.appce
 
 
 ## Styling
+
+| NOTE |
+|------|
+| Appcelerator Alloy 1.4 now supports styling of Widgets, and you no longer need to add `app.tss` entries to alter the styles of this widget. For more information on styling Widgets in Alloy 1.4, please refer to the [Widget Styling](http://docs.appcelerator.com/titanium/latest/#!/guide/Alloy_Widgets-section-35621514_AlloyWidgets-Themes) documentation. |
+
 The widget can be fully styled without touching the widget source. Use the following ID's in your app's `app.tss` to override the default style:
 
 | ID | Description |
