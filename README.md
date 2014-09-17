@@ -67,7 +67,10 @@ Download this repository and consult the [Alloy Documentation](http://docs.appce
 			},
 
 			// call error() when fetch fails
-			error: e.error
+			error: function(e) {
+				// pass optional error message to display
+				e.error(L('isError', 'Tap to try again...'));
+			}
 		});
 	}
 	```
