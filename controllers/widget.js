@@ -20,6 +20,12 @@ function init(parent) {
 
 	// Override __parentSymbol (needed after Alloy 1.3.0)
 	if (parent) {
+		
+		// To work with Alloy 1.5.0 with init() still in code
+		if (__parentSymbol) {
+			return;
+		}
+		
 		__parentSymbol = parent;
 
 		// manually add the footerView
@@ -85,7 +91,7 @@ function state(_state, _message) {
 	$.isCenter.add($.isText);
 	$.isText.show(); // so it can be hidden on init via TSS
 
-	if (list) {
+	if (list && _state !== -1) {
 		mark();
 	}
 
