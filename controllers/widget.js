@@ -1,212 +1,219 @@
 var args = arguments[0] || {};
 
 var options = {
-	msgTap: L('isTap', 'Tap to load more...'),
-	msgDone: L('isDone', 'No more to load...'),
-	msgError: L('isError', 'Tap to try again...')
+  msgTap: L('isTap', 'Tap to load more...'),
+  msgDone: L('isDone', 'No more to load...'),
+  msgError: L('isError', 'Tap to try again...')
 };
 
 var loading = false,
-	position = null,
-	list = false,
-	currentState = 1;
+  position = null,
+  list = false,
+  currentState = 1,
+  parentSymbol = null;
 
-// Only before Alloy 1.3.0
-if (__parentSymbol) {
-	init();
+// Only before Alloy 1.3.0 and in some cases since Alloy 1.5.0
+if (__parentSymbol && (__parentSymbol.apiName === 'Ti.UI.TableView' || __parentSymbol.apiName === 'Ti.UI.ListView')) {
+  init(__parentSymbol);
+} else {
+  console.debug('[' + $.__widgetId + '] Do not forget to call init() passing a TableView or ListView');
 }
 
 function init(parent) {
 
-	// Override __parentSymbol (needed after Alloy 1.3.0)
-	if (parent) {
-		
-		// To work with Alloy 1.5.0 with init() still in code
-		if (__parentSymbol) {
-			return;
-		}
-		
-		__parentSymbol = parent;
+  // In case init() was already called
+  if (parentSymbol) {
+    return;
+  }
 
-		// manually add the footerView
-		__parentSymbol.footerView = $.is;
-	}
+  // Override __parentSymbol (needed after Alloy 1.3.0)
+  if (parent.apiName !== 'Ti.UI.TableView' && parent.apiName !== 'Ti.UI.ListView') {
+    console.error('[' + $.__widgetId + '] Please call init() passing TableView or ListView');
+    return;
+  }
 
-	list = (__parentSymbol.apiName && __parentSymbol.apiName !== 'Ti.UI.TableView');
+  parentSymbol = parent;
 
-	// delete special args
-	delete args.__parentSymbol;
-	delete args.__itemTemplate;
-	delete args.$model;
+  // manually add the footerView (may not be needed before Alloy 1.3.0 and sometimes in Alloy 1.5.0+)
+  if (!parentSymbol.footerView) {
+    parentSymbol.footerView = $.is;
+  }
 
-	// set args as options
-	setOptions(args);
+  list = parentSymbol.apiName !== 'Ti.UI.TableView';
 
-	// set default text & remove indicator
-	$.isText.text = options.msgTap;
-	$.isCenter.remove($.isIndicator);
+  // delete special args
+  delete args.__parentSymbol;
+  delete args.__itemTemplate;
+  delete args.$model;
 
-	// listen to scroll or marker
-	if (list) {
-		mark();
-		__parentSymbol.addEventListener('marker', load);
-	} else {
-		__parentSymbol.addEventListener('scroll', onScroll);
-	}
+  // set args as options
+  setOptions(args);
 
-	// load when clicking on view
-	$.is.addEventListener('click', load);
+  // set default text & remove indicator
+  $.isText.text = options.msgTap;
+  $.isCenter.remove($.isIndicator);
 
-	return;
+  // listen to scroll or marker
+  if (list) {
+    mark();
+    parentSymbol.addEventListener('marker', load);
+  } else {
+    parentSymbol.addEventListener('scroll', onScroll);
+  }
+
+  // load when clicking on view
+  $.is.addEventListener('click', load);
+
+  return;
 }
 
 function mark() {
 
-	// sectionCount can be 0 on Android?!
-	var sectionIndex = Math.max(0, __parentSymbol.sectionCount - 1);
+  // sectionCount can be 0 on Android?!
+  var sectionIndex = Math.max(0, parentSymbol.sectionCount - 1);
 
-	__parentSymbol.setMarker({
-		sectionIndex: sectionIndex,
-		itemIndex: __parentSymbol.sections[sectionIndex].items.length - 1
-	});
+  parentSymbol.setMarker({
+    sectionIndex: sectionIndex,
+    itemIndex: parentSymbol.sections[sectionIndex].items.length - 1
+  });
 }
 
 function state(_state, _message) {
 
-	// remove indicator
-	$.isIndicator.hide();
-	$.isCenter.remove($.isIndicator);
+  // remove indicator
+  $.isIndicator.hide();
+  $.isCenter.remove($.isIndicator);
 
-	// set state
-	if (_state === 0 || _state === false || _state === -1 || _state === 1 || _state === true) {
-		currentState = _state;
-	} else {
-		throw Error('Pass a valid state');
-	}
+  // set state
+  if (_state === 0 || _state === false || _state === -1 || _state === 1 || _state === true) {
+    currentState = _state;
+  } else {
+    throw Error('Pass a valid state');
+  }
 
-	// set message
-	_updateMessage(_message);
+  // set message
+  _updateMessage(_message);
 
-	// add text
-	$.isCenter.add($.isText);
-	$.isText.show(); // so it can be hidden on init via TSS
+  // add text
+  $.isCenter.add($.isText);
+  $.isText.show(); // so it can be hidden on init via TSS
 
-	if (list && _state !== -1) {
-		mark();
-	}
+  if (list && _state !== -1) {
+    mark();
+  }
 
-	// small time-out to prevent scroll-load-state loop with fast syncs
-	setTimeout(function() {
-		loading = false;
-	}, 25);
+  // small time-out to prevent scroll-load-state loop with fast syncs
+  setTimeout(function() {
+    loading = false;
+  }, 25);
 
-	return true;
+  return true;
 }
 
 function load() {
 
-	if (loading) {
-		return false;
-	}
+  if (loading) {
+    return false;
+  }
 
-	loading = true;
+  loading = true;
 
-	// remove text
-	$.isCenter.remove($.isText);
+  // remove text
+  $.isCenter.remove($.isText);
 
-	// add indicator
-	$.isCenter.add($.isIndicator);
-	$.isIndicator.show();
+  // add indicator
+  $.isCenter.add($.isIndicator);
+  $.isIndicator.show();
 
-	// trigger listener to load
-	$.trigger('end', {
-		success: function(msg) {
-			return state(exports.SUCCESS, msg);
-		},
-		error: function(msg) {
-			return state(exports.ERROR, msg);
-		},
-		done: function(msg) {
-			return state(exports.DONE, msg);
-		},
-	});
+  // trigger listener to load
+  $.trigger('end', {
+    success: function(msg) {
+      return state(exports.SUCCESS, msg);
+    },
+    error: function(msg) {
+      return state(exports.ERROR, msg);
+    },
+    done: function(msg) {
+      return state(exports.DONE, msg);
+    },
+  });
 
-	return true;
+  return true;
 }
 
 function onScroll(e) {
 
-	// fixes responding to bubbled scroll event
-	if (e.source !== __parentSymbol) {
-		return;
-	}
+  // fixes responding to bubbled scroll event
+  if (e.source !== parentSymbol) {
+    return;
+  }
 
-	var triggerLoad;
+  var triggerLoad;
 
-	if (OS_ANDROID) {
+  if (OS_ANDROID) {
 
-		// last item shown
-		triggerLoad = (position && e.firstVisibleItem >= position && e.totalItemCount <= (e.firstVisibleItem + e.visibleItemCount));
+    // last item shown
+    triggerLoad = (position && e.firstVisibleItem >= position && e.totalItemCount <= (e.firstVisibleItem + e.visibleItemCount));
 
-		// remember position
-		position = e.firstVisibleItem;
+    // remember position
+    position = e.firstVisibleItem;
 
-	} else if (OS_IOS) {
+  } else if (OS_IOS) {
 
-		// last pixel shown
-		triggerLoad = (position && e.contentOffset.y > position) && (e.contentOffset.y + e.size.height > e.contentSize.height);
+    // last pixel shown
+    triggerLoad = (position && e.contentOffset.y > position) && (e.contentOffset.y + e.size.height > e.contentSize.height);
 
-		// remember position
-		position = e.contentOffset.y;
-	}
+    // remember position
+    position = e.contentOffset.y;
+  }
 
-	// trigger
-	if (triggerLoad) {
-		load();
-	}
+  // trigger
+  if (triggerLoad) {
+    load();
+  }
 
-	return;
+  return;
 }
 
 function dettach() {
 
-	// set as done
-	state(exports.DONE);
+  // set as done
+  state(exports.DONE);
 
-	// remove listener
-	if (list) {
-		__parentSymbol.removeEventListener('marker', load);
-	} else {
-		__parentSymbol.removeEventListener('scroll', onScroll);
-	}
+  // remove listener
+  if (list) {
+    parentSymbol.removeEventListener('marker', load);
+  } else {
+    parentSymbol.removeEventListener('scroll', onScroll);
+  }
 
-	// remove click event listener
-	$.is.removeEventListener('click', load);
+  // remove click event listener
+  $.is.removeEventListener('click', load);
 
-	return;
+  return;
 }
 
 function setOptions(_options) {
-	_.extend(options, _options);
+  _.extend(options, _options);
 
-	_updateMessage();
+  _updateMessage();
 }
 
 function _updateMessage(_message) {
 
-	if (_message) {
-		$.isText.text = _message;
+  if (_message) {
+    $.isText.text = _message;
 
-	} else {
+  } else {
 
-		if (currentState === 0 || currentState === false) {
-			$.isText.text = options.msgError;
-		} else if (currentState === -1) {
-			$.isText.text = options.msgDone;
-		} else {
-			$.isText.text = options.msgTap;
-		}
-	}
+    if (currentState === 0 || currentState === false) {
+      $.isText.text = options.msgError;
+    } else if (currentState === -1) {
+      $.isText.text = options.msgDone;
+    } else {
+      $.isText.text = options.msgTap;
+    }
+  }
 }
 
 exports.SUCCESS = 1;
