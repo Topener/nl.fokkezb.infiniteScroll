@@ -116,6 +116,8 @@ You can also manually trigger the loading state of the widget. You could use thi
 There is a test app and instructions in the [test](https://github.com/FokkeZB/nl.fokkezb.infiniteScroll/tree/test) branch.
 
 ## Changelog
+* 1.4.2:
+  * Fixes #29 for Alloy 1.5.0 
 * 1.4.1:
   * Fixes support for *ListViews* (marker loop after calling `e.done()`)
   * Anticipating future Alloy version where `__parentSymbol` works again
