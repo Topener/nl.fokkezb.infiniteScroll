@@ -216,6 +216,14 @@ function _updateMessage(_message) {
   }
 }
 
+function reinitPosition() {
+  if (list) {
+    mark();
+  } else {
+    position = null;
+  }
+}
+
 exports.SUCCESS = 1;
 exports.ERROR = 0;
 exports.DONE = -1;
@@ -226,3 +234,4 @@ exports.state = state;
 exports.dettach = dettach;
 exports.init = init;
 exports.mark = mark;
+exports.reinitPosition = reinitPosition;
