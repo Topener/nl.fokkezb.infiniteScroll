@@ -68,14 +68,20 @@ function init(parent) {
 }
 
 function mark() {
+  
+  if (list) {
 
-  // sectionCount can be 0 on Android?!
-  var sectionIndex = Math.max(0, parentSymbol.sectionCount - 1);
-
-  parentSymbol.setMarker({
-    sectionIndex: sectionIndex,
-    itemIndex: parentSymbol.sections[sectionIndex].items.length - 1
-  });
+    // sectionCount can be 0 on Android?!
+    var sectionIndex = Math.max(0, parentSymbol.sectionCount - 1);
+  
+    parentSymbol.setMarker({
+      sectionIndex: sectionIndex,
+      itemIndex: parentSymbol.sections[sectionIndex].items.length - 1
+    });
+  
+  } else {
+    position = null;
+  }
 }
 
 function state(_state, _message) {
@@ -216,14 +222,6 @@ function _updateMessage(_message) {
   }
 }
 
-function reinitPosition() {
-  if (list) {
-    mark();
-  } else {
-    position = null;
-  }
-}
-
 exports.SUCCESS = 1;
 exports.ERROR = 0;
 exports.DONE = -1;
@@ -234,4 +232,3 @@ exports.state = state;
 exports.dettach = dettach;
 exports.init = init;
 exports.mark = mark;
-exports.reinitPosition = reinitPosition;
