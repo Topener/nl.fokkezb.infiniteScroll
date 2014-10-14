@@ -117,6 +117,8 @@ There is a test app and instructions in the [test](https://github.com/FokkeZB/nl
 
 ## Changelog
 * 1.4.2:
+  * Closes #30 so you can call `.mark()` to re-init the position tracking.
+* 1.4.2:
   * Fixes #29 for Alloy 1.5.0 
 * 1.4.1:
   * Fixes support for *ListViews* (marker loop after calling `e.done()`)
