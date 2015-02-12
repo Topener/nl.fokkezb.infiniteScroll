@@ -13,7 +13,7 @@ var loading = false,
   parentSymbol = null;
 
 // Only before Alloy 1.3.0 and in some cases since Alloy 1.5.0
-if (__parentSymbol && (__parentSymbol.apiName === 'Ti.UI.TableView' || __parentSymbol.apiName === 'Ti.UI.ListView')) {
+if (__parentSymbol && (__parentSymbol.apiName === 'Ti.UI.TableView' || __parentSymbol.apiName === 'Ti.UI.ListView' || __parentSymbol.apiName === 'de.marcelpociot.CollectionView')) {
   init(__parentSymbol);
 } else {
   console.debug('[' + $.__widgetId + '] Do not forget to call init() passing a TableView or ListView');
@@ -27,7 +27,7 @@ function init(parent) {
   }
 
   // Override __parentSymbol (needed after Alloy 1.3.0)
-  if (parent.apiName !== 'Ti.UI.TableView' && parent.apiName !== 'Ti.UI.ListView') {
+  if (parent.apiName !== 'Ti.UI.TableView' && parent.apiName !== 'Ti.UI.ListView' && parent.apiName !== 'de.marcelpociot.CollectionView') {
     console.error('[' + $.__widgetId + '] Please call init() passing TableView or ListView');
     return;
   }
