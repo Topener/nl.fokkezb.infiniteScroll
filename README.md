@@ -47,6 +47,7 @@ Download this repository and consult the [Alloy Documentation](http://docs.appce
 * In the callback set via `myLoader` you call either `e.success()`, `e.error()` or `e.done()` optionally passing a custom message.
 
 	```javascript
+	// NOTE: do not use: var myLoader = function(e) {
 	function myLoader(e) {
 
 		var ln = myCollection.models.length;
