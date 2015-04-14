@@ -70,14 +70,15 @@ function init(parent) {
 function mark() {
   
   if (list) {
-
-    // sectionCount can be 0 on Android?!
     var sectionIndex = Math.max(0, parentSymbol.sectionCount - 1);
-  
-    parentSymbol.setMarker({
-      sectionIndex: sectionIndex,
-      itemIndex: parentSymbol.sections[sectionIndex].items.length - 1
-    });
+    var itemIndex = Math.max(parentSymbol.sections[sectionIndex].items.length - 1);
+
+    if (sectionIndex + itemIndex > 0) {
+      parentSymbol.setMarker({
+        sectionIndex: sectionIndex,
+        itemIndex: itemIndex
+      });
+    }
   
   } else {
     position = null;
