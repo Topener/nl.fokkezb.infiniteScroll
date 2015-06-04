@@ -223,6 +223,13 @@ function _updateMessage(_message) {
   }
 }
 
+function hide(){
+    $.is.hide();
+}
+function show(){
+    $.is.show();
+}
+
 exports.SUCCESS = 1;
 exports.ERROR = 0;
 exports.DONE = -1;
@@ -233,3 +240,5 @@ exports.state = state;
 exports.dettach = dettach;
 exports.init = init;
 exports.mark = mark;
+exports.hide = hide;
+exports.show = show;
