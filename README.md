@@ -118,6 +118,8 @@ You can also manually trigger the loading state of the widget. You could use thi
 There is a test app and instructions in the [test](https://github.com/FokkeZB/nl.fokkezb.infiniteScroll/tree/test) branch.
 
 ## Changelog
+* 1.4.5:
+  * Fixes error on empty lists, renames `dettach()` to `detach()` and adds `cleanup()`.
 * 1.4.4:
   * Added support for [TiCollectionView](https://github.com/mpociot/TiCollectionView).
 * 1.4.3:
