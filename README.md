@@ -109,7 +109,8 @@ You can also manually trigger the loading state of the widget. You could use thi
 | setOptions | `object`   | Set any of the options
 | load       |            | Manually trigger the `end` event and loading state
 | state      | `state`, `string`    | Manually set the state. The first argument should be one of the exported `SUCCESS`, `DONE` and `ERROR` constants. The second optional argument is a custom message to display instead of the message belonging to the state.
-| dettach    |            | Manually set the `DONE` state and remove the scroll listener
+| detach    |            | Manually set the `DONE` state and remove the scroll listener
+| cleanup   |            | Detach and then unset the `footerView`
 | init       | `Ti.UI.TableView`, `Ti.UI.ListView` | Manually init the widget if it's the child element of the *TableView* or *ListView*, or to work around [TC-3417](https://jira.appcelerator.org/browse/TC-3417) in Alloy 1.3.0 and later.
 | mark       |            | If add/remove items from the *ListView* via other ways then the widget call `mark()` so the widget is triggered on the last item.
 
