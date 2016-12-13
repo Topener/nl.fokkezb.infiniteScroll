@@ -99,7 +99,7 @@ function state(_state, _message) {
   }
 
   // set message
-  _updateMessage(_message);
+  updateMessage(_message);
 
   // add text
   $.isCenter.add($.isText);
@@ -211,10 +211,10 @@ function cleanup() {
 function setOptions(_options) {
   _.extend(options, _options);
 
-  _updateMessage();
+  updateMessage();
 }
 
-function _updateMessage(_message) {
+function updateMessage(_message) {
 
   if (_message) {
     $.isText.text = _message;
