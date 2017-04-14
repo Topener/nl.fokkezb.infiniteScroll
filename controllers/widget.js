@@ -87,9 +87,9 @@ function mark() {
 
 function state(_state, _message) {
 
-  // remove indicator
-  $.isIndicator.hide();
-  $.isCenter.remove($.isIndicator);
+  // remove indicator (validate it still exists)
+  $.isIndicator && $.isIndicator.hide();
+  $.isCenter && $.isCenter.remove($.isIndicator);
 
   // set state
   if (_state === 0 || _state === false || _state === -1 || _state === 1 || _state === true) {
@@ -102,8 +102,8 @@ function state(_state, _message) {
   _updateMessage(_message);
 
   // add text
-  $.isCenter.add($.isText);
-  $.isText.show(); // so it can be hidden on init via TSS
+  $.isCenter && $.isCenter.add($.isText);
+  $.isText && $.isText.show(); // so it can be hidden on init via TSS
 
   if (list && _state !== -1) {
     mark();
